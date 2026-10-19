@@ -1,0 +1,356 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  transition: background-color 0.5s var(--ease-soft), backdrop-filter 0.5s var(--ease-soft),
+    border-color 0.5s var(--ease-soft);
+  border-bottom: 1px solid transparent;
+}
+
+.nav.is-scrolled {
+  background: rgb(10 10 10 / 0.72);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border-bottom-color: var(--white-07);
+}
+
+.nav__inner {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: clamp(0.85rem, 1.6vw, 1.35rem) var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+/* --------------------------------------------- bar over a light section --- */
+.nav.is-light {
+  background: rgb(245 245 245 / 0.8);
+  border-bottom-color: var(--ink-12);
+}
+
+.nav.is-light .nav__mark-text,
+.nav.is-light .nav__link.is-active,
+.nav.is-light .nav__link:hover {
+  color: var(--black);
+}
+
+.nav.is-light .nav__link {
+  color: var(--ink-40);
+}
+
+.nav.is-light .nav__link:hover::after,
+.nav.is-light .nav__link.is-active::after {
+  background: var(--orange);
+}
+
+.nav.is-light .nav__replay {
+  color: var(--ink-40);
+  border-color: var(--ink-20);
+}
+
+.nav.is-light .nav__replay:hover {
+  color: var(--black);
+  border-color: var(--orange);
+}
+
+.nav.is-light .nav__burger {
+  border-color: var(--ink-20);
+}
+
+.nav.is-light .nav__burger span {
+  background: var(--black);
+}
+
+/* --------------------------------------------------------------- mark --- */
+.nav__mark {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--white);
+}
+
+/* A light streak that sweeps the mark on hover */
+.nav__beam {
+  position: absolute;
+  left: -0.35rem;
+  top: 50%;
+  width: 2.9rem;
+  height: 1px;
+  transform: translateY(-50%);
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--orange) 45%,
+    var(--white) 55%,
+    transparent 100%
+  );
+  transition: opacity 0.3s var(--ease-soft);
+}
+
+.nav__beam::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  animation: nav-streak 1.6s var(--ease-cine) infinite;
+  opacity: 0;
+}
+
+.nav__mark:hover .nav__beam,
+.nav__mark:focus-visible .nav__beam {
+  opacity: 0.9;
+}
+
+.nav__mark:hover .nav__beam::after,
+.nav__mark:focus-visible .nav__beam::after {
+  opacity: 1;
+}
+
+@keyframes nav-streak {
+  0% {
+    transform: translateX(-100%);
+  }
+  60%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.nav__mark-text {
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+}
+
+/* ------------------------------------------------------------- links --- */
+.nav__links ul {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 2vw, 2.1rem);
+}
+
+.nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45em;
+  padding: 0.45em 0;
+  color: var(--gray);
+  transition: color 0.35s var(--ease-soft);
+}
+
+.nav__idx {
+  font-size: 0.82em;
+  opacity: 0.55;
+  transition: color 0.35s var(--ease-soft), opacity 0.35s var(--ease-soft);
+}
+
+.nav__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0.1em;
+  width: 100%;
+  height: 1px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease-cine);
+}
+
+.nav__link:hover,
+.nav__link.is-active {
+  color: var(--white);
+}
+
+.nav__link:hover::after,
+.nav__link.is-active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.nav__link.is-active .nav__idx {
+  color: var(--orange);
+  opacity: 1;
+}
+
+/* ----------------------------------------------------------- actions --- */
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.nav__replay {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.6em 0.95em;
+  font-size: 0.68rem;
+  color: var(--gray);
+  border: 1px solid var(--white-12);
+  transition: color 0.3s var(--ease-soft), border-color 0.3s var(--ease-soft);
+}
+
+.nav__replay-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--orange);
+  animation: nav-pulse 2.6s var(--ease-soft) infinite;
+}
+
+@keyframes nav-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 var(--orange-60);
+  }
+  50% {
+    opacity: 0.45;
+    box-shadow: 0 0 0 5px rgb(255 92 0 / 0);
+  }
+}
+
+.nav__replay:hover {
+  color: var(--white);
+  border-color: var(--orange);
+}
+
+/* ------------------------------------------------------------ burger --- */
+.nav__burger {
+  display: none;
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--white-12);
+}
+
+.nav__burger span {
+  position: absolute;
+  left: 50%;
+  width: 1.05rem;
+  height: 1px;
+  background: var(--white);
+  transition: transform 0.45s var(--ease-cine), opacity 0.3s linear;
+}
+
+.nav__burger span:nth-child(1) {
+  top: calc(50% - 3px);
+  transform: translateX(-50%);
+}
+
+.nav__burger span:nth-child(2) {
+  top: calc(50% + 3px);
+  transform: translateX(-50%);
+}
+
+.nav__burger.is-open span:nth-child(1) {
+  transform: translateX(-50%) translateY(3px) rotate(45deg);
+}
+
+.nav__burger.is-open span:nth-child(2) {
+  transform: translateX(-50%) translateY(-3px) rotate(-45deg);
+}
+
+/* ----------------------------------------------------------- progress --- */
+.nav__progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 1px;
+  width: 100%;
+  background: var(--orange);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+/* ------------------------------------------------------------ overlay --- */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-nav) - 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  padding: 6rem var(--gutter) 3rem;
+  background: var(--black);
+  clip-path: inset(0% 0% 100% 0%);
+}
+
+.nav-overlay__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.nav-overlay__mask {
+  display: block;
+  overflow: hidden;
+  clip-path: inset(-0.2em 0 -0.06em 0);
+}
+
+.nav-overlay__link {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(0.8rem, 3vw, 1.6rem);
+  padding: 0.35em 0;
+  color: var(--white);
+}
+
+.nav-overlay__idx {
+  color: var(--orange);
+  flex: 0 0 auto;
+}
+
+.nav-overlay__label {
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 7vw, 3.4rem);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: -0.008em;
+  transition: color 0.3s var(--ease-soft), transform 0.5s var(--ease-cine);
+}
+
+.nav-overlay__link:hover .nav-overlay__label {
+  color: var(--orange);
+  transform: translateX(0.5rem);
+}
+
+.nav-overlay__foot {
+  color: var(--gray);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--white-07);
+}
+
+/* ------------------------------------------------------------ mobile --- */
+@media (max-width: 900px) {
+  .nav__links {
+    display: none;
+  }
+
+  .nav__burger {
+    display: block;
+  }
+}
+
+@media (max-width: 560px) {
+  .nav__replay {
+    font-size: 0;
+    gap: 0;
+    padding: 0.7em;
+  }
+
+  .nav__replay-dot {
+    width: 6px;
+    height: 6px;
+  }
+}

@@ -1,0 +1,524 @@
+/* ==========================================================================
+   SELECTED WORK
+   --------------------------------------------------------------------------
+   One card composition for every project: media on one side, text on the
+   other, alternating each row. Motion lives in three places —
+     · CSS   — hover lift, colour, link wipes, idle artwork loops
+     · GSAP  — scroll depth, hairline draw, pointer light, tag ripple
+     · keyframes — the generated SVG artwork breathing on its own
+   ========================================================================== */
+.work {
+  position: relative;
+  background: var(--black);
+}
+
+.work__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  margin-bottom: clamp(2rem, 5vw, 4rem);
+}
+
+.work__heading {
+  max-width: 24ch;
+}
+
+.work__heading .accent {
+  color: var(--orange);
+}
+
+.work__list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================ project === */
+.project {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 4.25rem);
+  padding-block: clamp(2.75rem, 7vw, 5.5rem);
+  isolation: isolate;
+}
+
+/* Alternating side — structure is identical, only the order changes. */
+.project--flip .project__media {
+  order: 2;
+}
+
+.project:first-child {
+  padding-top: 0;
+}
+
+/* Hairline between cards — GSAP draws it in from the left on scroll. */
+.project__rule {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--white-12);
+  transform: scaleX(1);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+.js .project__rule {
+  transform: scaleX(0);
+}
+
+.project:first-child .project__rule {
+  display: none;
+}
+
+/* Oversized editorial index, drifting on its own scroll rate via --gx. */
+.project::after {
+  content: attr(data-index);
+  position: absolute;
+  top: clamp(0.5rem, 1.4vw, 1.1rem);
+  left: -0.08em;
+  z-index: 0;
+  font-family: var(--font-display);
+  font-size: clamp(5.5rem, 13vw, 12rem);
+  line-height: 0.75;
+  color: var(--white);
+  opacity: 0.028;
+  transform: translate3d(var(--gx, 0px), 0, 0);
+  pointer-events: none;
+  user-select: none;
+}
+
+.project__media {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.project__media .pvis__frame {
+  aspect-ratio: 5 / 4;
+}
+
+/* Hover lift — the whole frame rises and settles a hair larger. */
+.pvis {
+  transition: transform 0.7s var(--ease-cine);
+  will-change: transform;
+}
+
+.project:hover .pvis {
+  transform: translateY(-8px) scale(1.015);
+}
+
+/* Touch devices keep no pointer to follow, so the lift stays off. */
+@media (hover: none) {
+  .project:hover .pvis {
+    transform: none;
+  }
+}
+
+.project__body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.9rem, 1.8vw, 1.35rem);
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------- meta --- */
+.project__meta {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.8rem, 2vw, 1.75rem);
+  color: var(--gray);
+}
+
+.project__idx {
+  color: var(--orange);
+  font-weight: 500;
+}
+
+.project__cat {
+  position: relative;
+  padding-left: clamp(0.8rem, 2vw, 1.75rem);
+}
+
+.project__cat::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: clamp(0.5rem, 1.2vw, 1rem);
+  height: 1px;
+  background: currentColor;
+}
+
+.project__year {
+  margin-left: auto;
+}
+
+/* --------------------------------------------------------------- type --- */
+.project__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.project__title {
+  font-size: clamp(1.6rem, 3.2vw, 3rem);
+  line-height: 0.98;
+  color: var(--white);
+  transition: color 0.5s var(--ease-soft);
+}
+
+.project:hover .project__title {
+  color: var(--orange);
+}
+
+.project__summary {
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+/* One-line hook under the title */
+.project__tagline {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-top: -0.25rem;
+}
+
+/* --------------------------------------------------------------- tags --- */
+.project__stack {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.9rem;
+}
+
+.project__stack-label {
+  color: var(--orange);
+  letter-spacing: 0.18em;
+}
+
+.project__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.project__tag {
+  padding: 0.5em 0.9em;
+  color: var(--gray);
+  border: 1px solid var(--white-12);
+  will-change: transform;
+  transition: color 0.35s var(--ease-soft), border-color 0.35s var(--ease-soft),
+    background-color 0.35s var(--ease-soft);
+}
+
+.project:hover .project__tag {
+  color: var(--white-60);
+  border-color: var(--white-20);
+}
+
+.project__tag:hover {
+  color: var(--white);
+  border-color: var(--orange);
+  background: var(--orange-08);
+}
+
+/* ---------------------------------------------------------------- foot --- */
+.project__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.35rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--white-07);
+}
+
+.project__role {
+  color: var(--gray);
+}
+
+.project__links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.project__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding-bottom: 0.3em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--white);
+  transition: color 0.3s var(--ease-soft);
+}
+
+/* Underline wipes in from the left on hover */
+.project__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.55s var(--ease-cine);
+}
+
+.project__link:hover::after,
+.project__link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.project__link span {
+  transition: transform 0.45s var(--ease-cine);
+}
+
+.project__link:hover {
+  color: var(--orange);
+}
+
+.project__link:hover span {
+  transform: translate(3px, -3px);
+}
+
+.project__link.is-pending {
+  color: var(--gray);
+  cursor: default;
+}
+
+.project__link.is-pending:hover {
+  color: var(--gray);
+}
+
+/* ==========================================================================
+   GENERATED PROJECT ARTWORK
+   ========================================================================== */
+.pvis {
+  position: relative;
+}
+
+.pvis__frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--gray-dark);
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--white-07);
+}
+
+.pvis__frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--orange);
+  opacity: 0;
+  mix-blend-mode: overlay;
+  transition: opacity 0.55s var(--ease-soft);
+  pointer-events: none;
+}
+
+.project:hover .pvis__frame::after {
+  opacity: 0.1;
+}
+
+.pvis__frame svg {
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+.pvis__index {
+  position: absolute;
+  top: clamp(0.6rem, 1.2vw, 1rem);
+  left: clamp(0.7rem, 1.4vw, 1.2rem);
+  color: var(--white);
+  padding: 0.35em 0.6em;
+  background: rgb(10 10 10 / 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.pvis__label {
+  position: absolute;
+  bottom: clamp(0.6rem, 1.2vw, 1rem);
+  right: clamp(0.7rem, 1.4vw, 1.2rem);
+  color: var(--white-60);
+  padding: 0.35em 0.6em;
+  background: rgb(10 10 10 / 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  max-width: 70%;
+  text-align: right;
+}
+
+/* Light bar that sweeps the frame on hover */
+.pvis__scan {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 34%;
+  opacity: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgb(255 92 0 / 0.22) 42%,
+    rgb(255 255 255 / 0.34) 50%,
+    rgb(255 92 0 / 0.22) 58%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.project:hover .pvis__scan {
+  opacity: 1;
+}
+
+/* --- idle motion (transform / opacity only) ------------------------------- */
+.pvis__bar {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: pv-bar 7s var(--ease-soft) infinite;
+}
+
+@keyframes pv-bar {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.68);
+  }
+}
+
+.pvis__cell {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: pv-cell 9s var(--ease-soft) infinite;
+}
+
+@keyframes pv-cell {
+  0%,
+  88%,
+  100% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 0.35;
+  }
+}
+
+.pvis__spin {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: pv-spin 9s linear infinite;
+}
+
+.pvis__spin-rev {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: pv-spin 14s linear infinite reverse;
+}
+
+@keyframes pv-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pvis__pulse {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: pv-pulse 4.5s var(--ease-soft) infinite;
+}
+
+@keyframes pv-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.55;
+  }
+}
+
+.pvis__wave {
+  animation: pv-wave 11s var(--ease-soft) infinite;
+}
+
+@keyframes pv-wave {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-26px);
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 1000px) {
+  /* Below the split breakpoint every card stacks the same way — media on
+     top, text beneath — regardless of which side it held on desktop. */
+  .project {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .project--flip .project__media {
+    order: 0;
+  }
+
+  .project__media .pvis__frame {
+    aspect-ratio: 16 / 11;
+  }
+
+  .work__intro {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .project::after {
+    font-size: 38vw;
+    top: 0.4rem;
+  }
+
+  .project__media .pvis__frame {
+    aspect-ratio: 4 / 3;
+  }
+
+  .project:hover .pvis {
+    transform: none;
+  }
+
+  .project__foot {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .project__year {
+    margin-left: 0;
+  }
+}

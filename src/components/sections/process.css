@@ -1,0 +1,150 @@
+/* ==========================================================================
+   HOW I WORK — off-white cards, black type, orange details
+   ========================================================================== */
+.process {
+  position: relative;
+  overflow: hidden;
+}
+
+.process .sec-head__rule {
+  background: var(--black);
+}
+
+.process__lead {
+  display: grid;
+  gap: clamp(0.9rem, 2vw, 1.5rem);
+  max-width: 68ch;
+  margin-bottom: clamp(2.25rem, 5vw, 3.75rem);
+}
+
+.process__badge {
+  justify-self: start;
+  padding: 0.45em 0.9em;
+  color: var(--off-white);
+  background: var(--black);
+  border-radius: 999px;
+}
+
+.process__heading {
+  color: var(--black);
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+  max-width: 24ch;
+}
+
+.process__heading {
+  margin-bottom: 0.2em;
+}
+
+.process__heading > span {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.process__heading .accent {
+  color: var(--orange);
+}
+
+.process__note {
+  color: var(--ink-60);
+  max-width: 52ch;
+  text-wrap: pretty;
+}
+
+/* --------------------------------------------------------------- cards --- */
+.process__cards {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--ink-12);
+  border: 1px solid var(--ink-12);
+}
+
+.process__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: clamp(1.25rem, 2.4vw, 2.25rem);
+  background: var(--off-white);
+  min-height: clamp(13rem, 19vw, 16.5rem);
+  transition: background-color 0.5s var(--ease-soft), color 0.5s var(--ease-soft);
+}
+
+.process__card:hover {
+  background: var(--orange);
+}
+
+.process__step {
+  font-size: clamp(1.8rem, 2.9vw, 2.7rem);
+  line-height: 0.9;
+  color: var(--ink-12);
+  transition: color 0.5s var(--ease-soft);
+}
+
+.process__card:hover .process__step {
+  color: rgb(255 255 255 / 0.35);
+}
+
+.process__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.45vw, 1.4rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  color: var(--black);
+  transition: color 0.5s var(--ease-soft);
+}
+
+.process__card:hover .process__title {
+  color: var(--white);
+}
+
+.process__detail {
+  font-size: clamp(0.88rem, 1vw, 1rem);
+  line-height: 1.62;
+  color: var(--ink-60);
+  text-wrap: pretty;
+  transition: color 0.5s var(--ease-soft);
+}
+
+.process__card:hover .process__detail {
+  color: rgb(255 255 255 / 0.9);
+}
+
+/* Pointer-tracking light marker */
+.process__marker {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 25%;
+  height: 3px;
+  background: var(--orange);
+  opacity: 0;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: 0 0 24px 2px var(--orange-60);
+}
+
+/* ------------------------------------------------------------ responsive - */
+@media (max-width: 1000px) {
+  .process__cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .process__card {
+    min-height: 0;
+  }
+
+  .process__marker {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .process__cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

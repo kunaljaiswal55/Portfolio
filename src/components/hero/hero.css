@@ -1,0 +1,403 @@
+.hero {
+  --spot-x: 62%;
+  --spot-y: 40%;
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-block: clamp(6.5rem, 14vh, 9rem) clamp(2rem, 5vh, 3.5rem);
+  background: var(--black);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ============================================================ background === */
+.hero__field {
+  position: absolute;
+  inset: -10%;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* Spotlight that tracks the pointer */
+.hero__spot {
+  position: absolute;
+  left: var(--spot-x);
+  top: var(--spot-y);
+  width: 130vmax;
+  height: 130vmax;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.6s var(--ease-soft);
+  background: radial-gradient(
+    closest-side circle at 50% 50%,
+    rgb(255 92 0 / 0.16) 0%,
+    rgb(255 92 0 / 0.06) 26%,
+    rgb(255 92 0 / 0.015) 48%,
+    transparent 66%
+  );
+}
+
+/* Slow light bars drifting across the frame */
+.hero__beam {
+  position: absolute;
+  left: -35%;
+  width: 170%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(255 92 0 / 0.5) 26%,
+    rgb(255 255 255 / 0.32) 50%,
+    rgb(255 92 0 / 0.5) 74%,
+    transparent 100%
+  );
+  filter: blur(34px);
+  animation-name: hero-beam;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+@keyframes hero-beam {
+  0%,
+  100% {
+    transform: translate3d(-14%, 0, 0) scaleY(1);
+  }
+  50% {
+    transform: translate3d(14%, 0, 0) scaleY(0.6);
+  }
+}
+
+/* Technical ruler across the upper field */
+.hero__ruler {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 21%;
+  height: 30px;
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.hero__tick {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 9px;
+  background: var(--white-20);
+}
+
+.hero__tick::after {
+  content: '';
+  position: absolute;
+  top: 13px;
+  left: 0;
+  width: 1px;
+  height: 17px;
+  background: var(--white-07);
+}
+
+/* ============================================================== content === */
+.hero__inner {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.75rem, 4vh, 3rem);
+}
+
+/* --------------------------------------------------------------- meta ---- */
+.hero__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--gray);
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--white-07);
+}
+
+.hero__avail {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  color: var(--white-60);
+}
+
+.hero__avail i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 10px var(--orange);
+  animation: hero-blink 2.8s var(--ease-soft) infinite;
+}
+
+@keyframes hero-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.28;
+  }
+}
+
+/* --------------------------------------------------------------- body ---- */
+.hero__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  align-items: end;
+  gap: clamp(1.5rem, 4vw, 4rem);
+}
+
+.hero__headline {
+  min-width: 0;
+}
+
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  color: var(--orange);
+  margin-bottom: clamp(0.6rem, 1.5vh, 1rem);
+}
+
+.hero__eyebrow::before {
+  content: '';
+  width: clamp(1.25rem, 3vw, 2.5rem);
+  height: 1px;
+  background: currentColor;
+}
+
+.hero__name {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  line-height: 0.9;
+  color: var(--white);
+}
+
+.hero__name-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.hero__name-line--offset {
+  margin-left: clamp(0.75rem, 4vw, 3.25rem);
+  color: transparent;
+  -webkit-text-stroke: 1px var(--white-35);
+  transition: color 0.6s var(--ease-soft), -webkit-text-stroke-color 0.6s var(--ease-soft);
+}
+
+.hero:hover .hero__name-line--offset {
+  color: var(--orange);
+  -webkit-text-stroke-color: var(--orange);
+}
+
+/* Orange light travelling across the name on reveal */
+.hero__sweep {
+  position: absolute;
+  top: -16%;
+  bottom: -16%;
+  left: 0;
+  width: 20%;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgb(255 92 0 / 0.18) 32%,
+    rgb(255 255 255 / 0.4) 50%,
+    rgb(255 92 0 / 0.18) 68%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+
+/* --------------------------------------------------------------- side ---- */
+.hero__side {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+  padding-bottom: 0.35rem;
+}
+
+.hero__copy {
+  max-width: 40ch;
+  color: var(--gray);
+}
+
+/* Focus pillars — what the work actually covers */
+.hero__focus {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--white-07);
+  max-width: 40ch;
+}
+
+.hero__focus-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  padding-block: 0.6rem;
+  border-bottom: 1px solid var(--white-07);
+  transition: padding-left 0.5s var(--ease-cine);
+}
+
+.hero__focus-item:hover {
+  padding-left: 0.4rem;
+}
+
+.hero__focus-label {
+  font-size: clamp(0.82rem, 0.95vw, 0.94rem);
+  font-weight: 400;
+  letter-spacing: -0.008em;
+  color: var(--white-60);
+}
+
+.hero__focus-note {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.1em;
+  color: var(--gray);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+/* --------------------------------------------------------------- foot ---- */
+.hero__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid var(--white-07);
+}
+
+.hero__scroll {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85em;
+  color: var(--gray);
+  transition: color 0.35s var(--ease-soft);
+}
+
+.hero__scroll:hover {
+  color: var(--white);
+}
+
+.hero__scroll-line {
+  position: relative;
+  display: block;
+  width: 2.75rem;
+  height: 1px;
+  background: var(--white-20);
+  overflow: hidden;
+}
+
+.hero__scroll-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--orange);
+  transform: translateX(-100%);
+  animation: hero-scan 2.6s var(--ease-cine) infinite;
+}
+
+@keyframes hero-scan {
+  0% {
+    transform: translateX(-100%);
+  }
+  55%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.hero__note {
+  color: var(--gray);
+  text-align: right;
+}
+
+/* -------------------------------------------------------- initial state -- */
+.js .hero__meta,
+.js .hero__copy,
+.js .hero__focus > *,
+.js .hero__actions > *,
+.js .hero__foot,
+.js .hero__field {
+  opacity: 0;
+}
+
+/* ------------------------------------------------------------ responsive - */
+@media (max-width: 1000px) {
+  .hero__body {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(1.5rem, 4vh, 2.25rem);
+  }
+
+  .hero__copy {
+    max-width: 52ch;
+  }
+
+  .hero__ruler {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero {
+    padding-block: clamp(5.5rem, 13vh, 7rem) 1.5rem;
+  }
+
+  .hero__name-line--offset {
+    margin-left: 0.5rem;
+    -webkit-text-stroke-width: 0.7px;
+  }
+
+  .hero__actions .btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .hero__meta,
+  .hero__foot {
+    font-size: 0.57rem;
+    letter-spacing: 0.11em;
+  }
+
+  .hero__foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .hero__note {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .hero__meta,
+  .js .hero__copy,
+  .js .hero__focus > *,
+  .js .hero__actions > *,
+  .js .hero__foot,
+  .js .hero__field {
+    opacity: 1;
+  }
+
+  .hero__beam {
+    animation: none;
+  }
+}

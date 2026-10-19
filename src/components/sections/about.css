@@ -1,0 +1,171 @@
+/* ==========================================================================
+   ABOUT — typography led, off-white, black type, orange accents
+   ========================================================================== */
+.about {
+  position: relative;
+  overflow: hidden;
+}
+
+.about .sec-head__rule {
+  background: var(--black);
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(1.75rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.about__heading {
+  color: var(--black);
+  font-size: clamp(1.8rem, 3.3vw, 3.1rem);
+  line-height: 1;
+  max-width: 18ch;
+}
+
+.about__heading {
+  margin-bottom: 0.1em;
+}
+
+.about__heading > span {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.about__heading .accent {
+  color: var(--orange);
+}
+
+.about__aside {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.75rem, 4vw, 3rem);
+}
+
+.about__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.about__body p {
+  color: var(--ink-60);
+  text-wrap: pretty;
+}
+
+/* ---------------------------------------------------------------- facts -- */
+.about__facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--ink-12);
+  border: 1px solid var(--ink-12);
+}
+
+.about__fact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: clamp(0.9rem, 1.6vw, 1.35rem);
+  background: var(--off-white);
+  transition: background-color 0.45s var(--ease-soft);
+}
+
+.about__fact:hover {
+  background: var(--white);
+}
+
+.about__fact dt {
+  color: var(--orange);
+}
+
+.about__fact dd {
+  font-size: clamp(0.85rem, 0.95vw, 0.98rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  line-height: 1.35;
+}
+
+/* ----------------------------------------------------------------- foot -- */
+.about__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: clamp(2.5rem, 6vw, 5rem);
+  padding-top: clamp(1.25rem, 3vw, 2rem);
+  border-top: 1px solid var(--ink-12);
+}
+
+/* Drifting light streaks, echoing the opening sequence */
+.about__mark {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: clamp(4rem, 6vw, 5.5rem);
+}
+
+.about__mark i {
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, var(--orange) 0%, transparent 100%);
+  animation: about-drift 6s var(--ease-soft) infinite;
+}
+
+.about__mark i:nth-child(2) {
+  width: 74%;
+  animation-duration: 7.5s;
+}
+
+.about__mark i:nth-child(3) {
+  width: 88%;
+  animation-duration: 5.5s;
+}
+
+.about__mark i:nth-child(4) {
+  width: 46%;
+  animation-duration: 8s;
+}
+
+@keyframes about-drift {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateX(38%);
+    opacity: 0.25;
+  }
+}
+
+.about__sig {
+  color: var(--ink-40);
+  text-align: right;
+}
+
+/* ------------------------------------------------------------ responsive - */
+@media (max-width: 900px) {
+  .about__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .about__facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about__foot {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .about__sig {
+    text-align: left;
+  }
+}
