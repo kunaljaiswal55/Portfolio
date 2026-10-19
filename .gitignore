@@ -1,0 +1,34 @@
+# Dependencies — must never be committed.
+# Committing node_modules ships the .bin shims as symlinks, which check out
+# without an executable bit on build servers (Vercel) and break `npm run build`.
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Vercel
+.vercel/
+
+# TypeScript incremental build cache
+*.tsbuildinfo
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
